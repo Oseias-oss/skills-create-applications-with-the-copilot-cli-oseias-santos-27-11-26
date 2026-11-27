@@ -1,6 +1,6 @@
 const path = require('path');
 const { spawnSync } = require('child_process');
-const { add, subtract, multiply, divide } = require('../calculator');
+const { add, subtract, multiply, divide, modulo, power, squareRoot } = require('../calculator');
 
 describe('add', () => {
   test('2 + 3 = 5', () => expect(add(2, 3)).toBe(5));
@@ -41,6 +41,34 @@ describe('divide', () => {
   test('0 / 0 lança erro', () => expect(() => divide(0, 0)).toThrow());
 });
 
+describe('modulo', () => {
+  test('resto da divisão', () => expect(modulo(10, 3)).toBe(1));
+  test('dividendo negativo', () => expect(modulo(-10, 3)).toBe(-1));
+  test('divisor zero lança erro', () =>
+    expect(() => modulo(10, 0)).toThrow('Divisão por zero'));
+  test('divisor zero negativo lança erro', () =>
+    expect(() => modulo(0, -0)).toThrow('Divisão por zero'));
+});
+
+describe('power', () => {
+  test('expoente positivo', () => expect(power(2, 3)).toBe(8));
+  test('expoente zero', () => expect(power(2, 0)).toBe(1));
+  test('expoente negativo', () => expect(power(2, -2)).toBe(0.25));
+  test('base negativa e expoente inteiro', () => expect(power(-2, 3)).toBe(-8));
+  test('base negativa e expoente fracionário lança erro', () =>
+    expect(() => power(-2, 0.5)).toThrow('Potência inválida'));
+  test('zero elevado a expoente negativo lança erro', () =>
+    expect(() => power(0, -1)).toThrow('expoente negativo'));
+});
+
+describe('squareRoot', () => {
+  test('raiz exata', () => expect(squareRoot(9)).toBe(3));
+  test('raiz decimal', () => expect(squareRoot(2)).toBeCloseTo(Math.SQRT2));
+  test('raiz de zero', () => expect(squareRoot(0)).toBe(0));
+  test('raiz de número negativo lança erro', () =>
+    expect(() => squareRoot(-1)).toThrow('número negativo'));
+});
+
 describe('CLI', () => {
   const script = path.join(__dirname, '..', 'calculator.js');
   const run = (...args) => spawnSync('node', [script, ...args], { encoding: 'utf8' });
@@ -50,6 +78,9 @@ describe('CLI', () => {
     [['subtract', '10', '4'], '6'],
     [['multiply', '45', '2'], '90'],
     [['divide', '20', '5'], '4'],
+    [['modulo', '10', '3'], '1'],
+    [['power', '2', '3'], '8'],
+    [['squareRoot', '9'], '3'],
   ])('%j imprime %s', (args, expected) => {
     const r = run(...args);
     expect(r.status).toBe(0);
@@ -60,6 +91,20 @@ describe('CLI', () => {
     const r = run('divide', '1', '0');
     expect(r.status).toBe(1);
     expect(r.stderr).toMatch(/zero/i);
+  });
+
+  test.each([
+    [['modulo', '1', '0'], /zero/i],
+    [['power', '-2', '0.5'], /inválida/i],
+    [['power', '0', '-1'], /expoente negativo/i],
+    [['squareRoot', '-1'], /negativo/i],
+    [['squareRoot', 'abc'], /números/i],
+    [['squareRoot', '9', 'abc'], /números/i],
+    [['power', '2'], /Uso/],
+  ])('%j retorna erro', (args, message) => {
+    const r = run(...args);
+    expect(r.status).toBe(1);
+    expect(r.stderr).toMatch(message);
   });
 
   test('entrada não numérica retorna erro', () => {
