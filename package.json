@@ -1,0 +1,23 @@
+{
+  "name": "skills-create-applications-with-the-copilot-cli-oseias-santos-27-11-26",
+  "version": "1.0.0",
+  "description": "<img src=\"https://octodex.github.com/images/Professortocat_v2.png\" align=\"right\" height=\"200px\" />",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Oseias-oss/skills-create-applications-with-the-copilot-cli-oseias-santos-27-11-26.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Oseias-oss/skills-create-applications-with-the-copilot-cli-oseias-santos-27-11-26/issues"
+  },
+  "homepage": "https://github.com/Oseias-oss/skills-create-applications-with-the-copilot-cli-oseias-santos-27-11-26#readme",
+  "devDependencies": {
+    "jest": "^30.5.2"
+  }
+}
