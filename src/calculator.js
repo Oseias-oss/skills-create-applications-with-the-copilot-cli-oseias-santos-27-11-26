@@ -3,31 +3,31 @@
  * Calculadora CLI
  *
  * Operações suportadas:
- *   - add       (adição)        a + b
- *   - subtract  (subtração)     a - b
- *   - multiply  (multiplicação) a * b
- *   - divide    (divisão)       a / b (divisão por zero gera erro)
+ *   - add       (addition)       a + b
+ *   - subtract  (subtraction)    a - b
+ *   - multiply  (multiplication) a * b
+ *   - divide    (division)       a / b (divisão por zero gera erro)
  *
  * Uso: node src/calculator.js <operação> <a> <b>
  * Exemplo: node src/calculator.js add 2 3   # 5
  */
 
-// Adição
+// Addition (adição)
 function add(a, b) {
   return a + b;
 }
 
-// Subtração
+// Subtraction (subtração)
 function subtract(a, b) {
   return a - b;
 }
 
-// Multiplicação
+// Multiplication (multiplicação)
 function multiply(a, b) {
   return a * b;
 }
 
-// Divisão
+// Division (divisão)
 function divide(a, b) {
   if (b === 0) {
     throw new Error('Divisão por zero não é permitida.');
